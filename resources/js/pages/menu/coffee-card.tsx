@@ -149,6 +149,8 @@ import CheckboxVerticalGroup from '@/components/check-box-vertical';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
 
 export function CoffeeCard() {
     const { drinks } = usePage<{ drinks: Drink[] }>().props;
@@ -230,17 +232,27 @@ export function CoffeeCard() {
                                 />
                             </motion.div>
                             <div className="sticky top-0 z-30 space-y-2 bg-white p-4">
-                                <p>{active.drink_name}</p>
-                                <p>{active.price}</p>
+                                <p className="text-3xl font-bold">
+                                    {active.drink_name}
+                                </p>
+                                <p className="text-lg">₱ {active.price}</p>
                             </div>
                             <Separator />
                             <ScrollArea className="h-96">
-                                <div className="p-4">
+                                <div className="space-y-2 p-4">
                                     <div className="space-y-2">
                                         <CheckboxVerticalGroup />
                                     </div>
                                 </div>
+
+                                <div className="max-w-[500px] p-4">
+                                    <Label className="text-xl font-bold">
+                                        Note
+                                    </Label>
+                                    <Textarea />
+                                </div>
                             </ScrollArea>
+
                             <div className="rounded-b-md border-t bg-white px-4 py-4">
                                 <div className="flex w-full justify-between">
                                     <Button variant="default">Check Out</Button>
