@@ -11,7 +11,10 @@ import {
 } from '@/components/ui/dialog';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
+import { usePage } from '@inertiajs/react';
 import { PlusCircleIcon } from 'lucide-react';
+import { Drink } from '../drink/Index';
+import { ulrSrc } from '@/const/src';
 
 type Coffee = {
     id: string;
@@ -49,9 +52,10 @@ const CoffeeItem: Coffee[] = [
     },
 ];
 const CoffeeCard = () => {
+    const { drinks } = usePage<{ drinks: Drink[] }>().props;
     return (
         <>
-            {CoffeeItem.map((i) => (
+            {drinks.map((i) => (
                 <Card
                     className="w-96 shadow-none hover:border-black"
                     key={i.id}
@@ -62,17 +66,17 @@ const CoffeeCard = () => {
                                 <div className="flex gap-2">
                                     <div>
                                         <img
-                                            src={i.image}
+                                            src={`${ulrSrc}/${i.drink_image}`}
                                             alt=""
                                             className="h-32 w-32 rounded-md"
                                         />
                                     </div>
                                     <ul className="flex flex-col justify-between">
-                                        <li className="text-2xl ">
-                                            {i.coffeeName}
+                                        <li className="text-2xl">
+                                            {i.drink_name}
                                         </li>
                                         <li>₱ {i.price}</li>
-                                        <li>{i.description}</li>
+                                        <li>{i.is_available}</li>
                                     </ul>
                                 </div>
                                 <Dialog>
@@ -84,27 +88,27 @@ const CoffeeCard = () => {
                                         </DialogTrigger>
                                         <DialogContent className="flex max-h-11/12 flex-col gap-0 border-none p-0">
                                             <ScrollArea className="flex max-h-full flex-col overflow-hidden rounded-md">
-
-                                                <DialogHeader className="contents space-y-0 text-left">
-                                                    <div>
-                                                        <img
-                                                            src={i.image}
-                                                            alt=""
-                                                            className="max-h-96 w-full rounded-t-md object-cover"
-                                                        />
-                                                    </div>
+                                                <div>
+                                                    <img
+                                                        src={`${ulrSrc}/${i.drink_image}`}
+                                                        alt=""
+                                                        className="max-h-96 w-full rounded-t-md object-cover"
+                                                    />
+                                                </div>
+                                                <div className="sticky top-0 bg-white p-4 font-bold capitalize shadow-sm">
+                                                    <p>{i.drink_name}</p>
+                                                </div>
+                                                <div>
                                                     <ul className="mt-5 flex flex-col justify-between gap-5 px-4 py-2 text-xl">
-                                                        <li className="font-bold capitalize sticky">
-                                                            {i.coffeeName}
-                                                        </li>
                                                         <li className="font-bold">
                                                             ₱ {i.price}
                                                         </li>
                                                         <li className="text-sm text-gray-700">
-                                                            {i.description}
+                                                            {i.is_available}
                                                         </li>
                                                     </ul>
-                                                </DialogHeader>
+                                                </div>
+
                                                 <Separator />
                                                 <div className="p-4">
                                                     <CheckboxVerticalGroup />
