@@ -51,9 +51,21 @@ const Index = () => {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <div>
+                <div className='space-x-2'>
                     <DialogAction
                         buttonText="Create Drink"
+                        title="Create a Drinks"
+                        submit={handleSubmit}
+                        processing={processing}
+                        isDialogOpen={isDialogOpen}
+                        setDialogOpen={setDialogOpen}
+                        formInput={drinkInput}
+                        errors={errors}
+                        data={data}
+                        setData={setData}
+                    />
+                    <DialogAction
+                        buttonText="Create Addons"
                         title="Create a Drinks"
                         submit={handleSubmit}
                         processing={processing}
