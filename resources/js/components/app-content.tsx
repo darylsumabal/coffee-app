@@ -24,15 +24,15 @@ export function AppContent({ variant = 'header', children, ...props }: Props) {
         <>
             {!auth.user && (
                 <main
-                    className="mx-auto flex h-full w-full flex-1 flex-col gap-4 rounded-xl"
+                    className="mx-auto flex h-full w-full flex-1 flex-col rounded-xl"
                     {...props}
                 >
-                    <div className="flex justify-center bg-white py-4 shadow-lg shadow-slate-200">
-                        <div className="w-7xl">
+                    <div className="sticky top-0 z-50 flex justify-center bg-white py-4 shadow-xl">
+                        <div className="w-7xl ">
                             <NavBar />
                         </div>
                     </div>
-                    <div className="flex justify-center">
+                    <div className="flex justify-center bg-[#f7f7f7]">
                         <div className="w-7xl">{children}</div>
                     </div>
                 </main>
