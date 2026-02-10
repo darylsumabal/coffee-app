@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Drink;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -12,7 +13,9 @@ class MenuController extends Controller
      */
     public function index()
     {
-        return Inertia::render('menu/Index');
+        return Inertia::render('menu/Index', [
+            'drinks' => Drink::all(),
+        ]);
     }
 
     /**

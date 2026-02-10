@@ -14,14 +14,14 @@ Route::prefix('admin')->group(function () {
         ]);
     })->name('admin.home');
 
+
     Route::get('/dashboard', function () {
         return Inertia::render('dashboard');
     })->middleware(['auth', 'verified'])->name('dashboard');
+
+    require __DIR__ . '/drink.php';
 });
+
+require __DIR__ . '/menu.php';
 require __DIR__ . '/client.php';
 require __DIR__ . '/settings.php';
-
-
-// Route::get('dashboard', function () {
-//     return Inertia::render('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
