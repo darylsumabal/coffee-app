@@ -22,17 +22,6 @@ const fruits = [
     { label: 'Grape', extraPrice: 10, icon: GrapeIcon },
     { label: 'Grape', extraPrice: 10, icon: GrapeIcon },
     { label: 'Grape', extraPrice: 10, icon: GrapeIcon },
-    { label: 'Grape', extraPrice: 10, icon: GrapeIcon },
-    { label: 'Grape', extraPrice: 10, icon: GrapeIcon },
-    { label: 'Grape', extraPrice: 10, icon: GrapeIcon },
-    { label: 'Grape', extraPrice: 10, icon: GrapeIcon },
-    { label: 'Grape', extraPrice: 10, icon: GrapeIcon },
-    { label: 'Grape', extraPrice: 10, icon: GrapeIcon },
-    { label: 'Grape', extraPrice: 10, icon: GrapeIcon },
-    { label: 'Grape', extraPrice: 10, icon: GrapeIcon },
-    { label: 'Grape', extraPrice: 10, icon: GrapeIcon },
-    { label: 'Grape', extraPrice: 10, icon: GrapeIcon },
-];
 
 const temperature = [{ label: 'Cold' }, { label: 'Hold' }];
 
