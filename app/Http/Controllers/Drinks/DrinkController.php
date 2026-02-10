@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Drinks;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DrinkRequest;
+use App\Models\Addon;
 use App\Models\Drink;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -16,7 +17,8 @@ class DrinkController extends Controller
     public function index()
     {
         return Inertia::render('drink/Index', [
-            'drinks' => Drink::all()
+            'drinks' => Drink::all(),
+            'addons' => Addon::all()
         ]);
     }
 

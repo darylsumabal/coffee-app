@@ -23,3 +23,22 @@ export const drinkInput: InputForm<Drink>[] = [
         inputType: 'file',
     },
 ];
+
+export type Addon = {
+    id?: string;
+    addon_name: File | null;
+    extra_price: string;
+};
+
+export const addonsInput: InputForm<Addon>[] = [
+    {
+        label: 'Addon Name',
+        data: 'addon_name',
+        inputType: 'text',
+    },
+    {
+        label: 'Price',
+        data: 'extra_price',
+        inputType: 'number',
+    },
+];
