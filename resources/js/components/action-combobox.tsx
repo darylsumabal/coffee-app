@@ -1,13 +1,10 @@
-import { useState } from 'react';
-import { CheckIcon, ChevronsUpDownIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
     Command,
     CommandEmpty,
     CommandGroup,
-    CommandInput,
     CommandItem,
-    CommandList,
+    CommandList
 } from '@/components/ui/command';
 import {
     Popover,
@@ -15,6 +12,8 @@ import {
     PopoverTrigger,
 } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
+import { CheckIcon, ChevronsUpDownIcon } from 'lucide-react';
+import { useState } from 'react';
 
 type ComboboxDemoProps = {
     value: string;

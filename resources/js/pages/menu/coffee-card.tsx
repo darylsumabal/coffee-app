@@ -163,7 +163,7 @@ export function CoffeeCard({ drinks: propDrinks }: CoffeeCardProps = {}) {
                                         className="flex-1"
                                         onClick={handleCheckout}
                                     >
-                                        Add to Cart
+                                        Checkout
                                     </Button>
 
                                     <div className="text-right">
