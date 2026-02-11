@@ -1,10 +1,8 @@
 import { AppContent } from '@/components/app-content';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Separator } from '@/components/ui/separator';
 import { ulrSrc } from '@/const/src';
 import { usePage } from '@inertiajs/react';
-import React from 'react';
 
 const Checkout = () => {
     const { orderData } = usePage().props;
