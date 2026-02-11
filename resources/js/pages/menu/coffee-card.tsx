@@ -1,5 +1,5 @@
 import { useOutsideClick } from '@/hooks/use-outside-click';
-import { usePage } from '@inertiajs/react';
+import { router, usePage } from '@inertiajs/react';
 import { AnimatePresence, motion } from 'motion/react';
 import { useEffect, useId, useRef, useState } from 'react';
 import type { Drink } from '../drink/Index';
@@ -74,7 +74,11 @@ export function CoffeeCard({ drinks: propDrinks }: CoffeeCardProps = {}) {
             total: calculateTotal(),
         };
 
-        console.log('Order:', orderData);
+        router.visit('/menu/checkout', {
+            method: 'get', // or 'post' if you want to send order data
+            data: orderData, // optional, send order data to next page,
+            preserveState: true,
+        });
         handleClose();
     };
 
@@ -181,6 +185,7 @@ export function CoffeeCard({ drinks: propDrinks }: CoffeeCardProps = {}) {
                                     <Button
                                         size="lg"
                                         className="flex-1"
+                                        disabled={temperature === ''}
                                         onClick={handleCheckout}
                                     >
                                         Checkout
