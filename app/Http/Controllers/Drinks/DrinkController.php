@@ -40,7 +40,7 @@ class DrinkController extends Controller
             'drink_image' => $posterPath,
             'drink_name' => $request->drink_name,
             'price' => $request->price,
-            'is_available' => $request->is_available ?? true,
+            'availability' => $request->availability,
         ]);
 
         return redirect()->back()->with('success', 'Drink created!');

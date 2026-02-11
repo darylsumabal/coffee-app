@@ -25,7 +25,7 @@ class DrinkRequest extends FormRequest
             'drink_image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'drink_name' => 'required|string|min:1|max:255',
             'price' => 'required|numeric|min:1',
-            'is_available' => 'boolean'
+            'availability' => 'required|string'
         ];
     }
 }

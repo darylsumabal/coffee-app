@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('addon_name');
             $table->float('extra_price');
+            $table->enum('availability', ['available', 'unavailable'])->default('available');
             $table->timestamps();
         });
     }

@@ -7,13 +7,13 @@ import {
     TabsTrigger,
 } from '@/components/ui/motion-tabs';
 import { Addon, addonsInput, drinkInput } from '@/const/drink';
-
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem } from '@/types';
 import { Head, useForm, usePage } from '@inertiajs/react';
 import { useState } from 'react';
-import CardAddon from './card-addon';
-import TableDrink from './table';
+import { columnAddon, columnDrink } from './column';
+import DataTable from './table';
+import { toast } from 'sonner';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -27,13 +27,14 @@ export type Drink = {
     drink_image: File | null;
     drink_name: string;
     price: number | string;
-    is_available: boolean;
+    availability: string;
 };
 
 type Addon = {
     id?: string;
     addon_name: string;
     extra_price: string;
+    availability: string;
 };
 
 const Index = () => {
@@ -48,7 +49,7 @@ const Index = () => {
         drink_image: null,
         drink_name: '',
         price: '',
-        is_available: true,
+        availability: '',
     });
 
     const {
@@ -61,6 +62,7 @@ const Index = () => {
     } = useForm<Addon>({
         addon_name: '',
         extra_price: '',
+        availability: '',
     });
 
     const handleSubmit = (e: React.SubmitEvent) => {
@@ -68,30 +70,32 @@ const Index = () => {
 
         post('/admin/drink', {
             onSuccess: () => {
-                resetAddon();
+                reset();
                 setDialogOpen(false);
-                alert('drink created');
+                toast.success('Drink created');
             },
             onError: () => {
-                alert('An error occurred');
+                toast.error('An error occurred');
             },
         });
     };
+
     const handleSubmitAddon = (e: React.SubmitEvent) => {
         e.preventDefault();
 
         postAddon('/admin/addon', {
             onSuccess: () => {
-                reset();
+                resetAddon();
                 setDialogOpenAddon(false);
-                alert('addon created');
+                toast.success('addon created');
             },
             onError: (e) => {
                 console.log(e);
-                alert('An error occurred');
+                toast.error('An error occurred');
             },
         });
     };
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />
@@ -131,18 +135,10 @@ const Index = () => {
                                     />
                                 </div>
                                 <div className="flex h-full flex-wrap gap-4">
-                                    {/* {drinks?.map((i) => (
-                                        <div key={i.id}>
-                                            <CardDrink
-                                                id={i.id}
-                                                drink_name={i.drink_name}
-                                                drink_image={i.drink_image}
-                                                is_available={i.is_available}
-                                                price={i.price}
-                                            />
-                                        </div>
-                                    ))} */}
-                                    <TableDrink drinks={drinks} />
+                                    <DataTable
+                                        data={drinks ?? []}
+                                        columns={columnDrink}
+                                    />
                                 </div>
                             </TabsContent>
                             <TabsContent
@@ -165,14 +161,10 @@ const Index = () => {
                                     />
                                 </div>
                                 <div className="flex h-full flex-wrap gap-4">
-                                    {addons?.map((i) => (
-                                        <div key={i.id}>
-                                            <CardAddon
-                                                addon_name={i.addon_name}
-                                                extra_price={i.extra_price}
-                                            />
-                                        </div>
-                                    ))}
+                                    <DataTable
+                                        data={addons ?? []}
+                                        columns={columnAddon}
+                                    />
                                 </div>
                             </TabsContent>
                         </TabsContents>

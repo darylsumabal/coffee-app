@@ -8,5 +8,5 @@ Route::prefix('addon')->group(function () {
     Route::get('/', [AddonController::class, 'index']);
     Route::post('/', [AddonController::class, 'store']);
     Route::put('/{id}', [AddonController::class, 'update']);
-    Route::delete('/{id}', [DrinkController::class, 'destroy']);
+    Route::delete('/{addon}', [AddonController::class, 'destroy']);
 });
