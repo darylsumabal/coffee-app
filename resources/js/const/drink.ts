@@ -26,7 +26,7 @@ export const drinkInput: InputForm<Drink>[] = [
 
 export type Addon = {
     id?: string;
-    addon_name: File | null;
+    addon_name: string;
     extra_price: string;
 };
 
