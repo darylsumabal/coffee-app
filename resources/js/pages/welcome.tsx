@@ -830,6 +830,7 @@ export default function Welcome({
             ) : (
                 <AppContent>
                     <LandingPage />
+                    
                 </AppContent>
             )}
         </>
