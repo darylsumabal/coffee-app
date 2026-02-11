@@ -1,5 +1,7 @@
 import MenuSearchBar from '@/components/ui/menu-search-bar';
 import SideBarMenu from '@/components/ui/sidebar-menu';
+import { CoffeeCard } from './coffee-card';
+import { AppContent } from '@/components/app-content';
 
 const Menu = () => {
   return (
@@ -24,4 +26,5 @@ const Menu = () => {
 };
 
 Menu.layout = (page: React.ReactNode) => <AppContent>{page}</AppContent>;
+
 export default Menu;
