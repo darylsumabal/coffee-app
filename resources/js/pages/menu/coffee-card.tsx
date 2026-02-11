@@ -203,40 +203,49 @@ export function CoffeeCard({ drinks: propDrinks }: CoffeeCardProps = {}) {
 
             {/* CARD GRID */}
             <ul className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                {drinks.map((card) => (
-                    <motion.li
-                        key={card.id}
-                        layoutId={`card-${card.drink_name}-${id}`}
-                        onClick={() => handleCardClick(card)}
-                        className="cursor-pointer overflow-hidden rounded-xl border-2 border-neutral-200 hover:shadow-lg"
-                    >
-                        <motion.div
-                            layoutId={`image-${card.drink_name}-${id}`}
-                            className="h-48 overflow-hidden"
+                {drinks.map((card) => {
+                    const isActive = active?.id === card.id;
+                    return (
+                        <motion.li
+                            key={card.id}
+                            layoutId={`card-${card.drink_name}-${id}`}
+                            onClick={() => handleCardClick(card)}
+                            className="cursor-pointer overflow-hidden rounded-xl border-2 border-neutral-200 hover:shadow-lg"
+                            animate={{
+                                opacity: isActive ? 0 : 1
+                            }}
+                            style={{
+                                pointerEvents: isActive ? 'none' : 'auto'
+                            }}
                         >
-                            <img
-                                src={`${ulrSrc}/${card.drink_image}`}
-                                className="h-full w-full object-cover"
-                            />
-                        </motion.div>
-
-                        <div className="p-4">
-                            <motion.h3
-                                layoutId={`title-${card.drink_name}-${id}`}
-                                className="text-lg font-semibold"
+                            <motion.div
+                                layoutId={`image-${card.drink_name}-${id}`}
+                                className="h-48 overflow-hidden"
                             >
-                                {card.drink_name}
-                            </motion.h3>
+                                <img
+                                    src={`${ulrSrc}/${card.drink_image}`}
+                                    className="h-full w-full object-cover"
+                                />
+                            </motion.div>
 
-                            <motion.p
-                                layoutId={`price-${card.price}-${id}`}
-                                className="text-xl font-bold"
-                            >
-                                ₱ {card.price}
-                            </motion.p>
-                        </div>
-                    </motion.li>
-                ))}
+                            <div className="p-4">
+                                <motion.h3
+                                    layoutId={`title-${card.drink_name}-${id}`}
+                                    className="text-lg font-semibold"
+                                >
+                                    {card.drink_name}
+                                </motion.h3>
+
+                                <motion.p
+                                    layoutId={`price-${card.price}-${id}`}
+                                    className="text-xl font-bold"
+                                >
+                                    ₱ {card.price}
+                                </motion.p>
+                            </div>
+                        </motion.li>
+                    );
+                })}
             </ul>
         </>
     );
