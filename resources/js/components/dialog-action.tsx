@@ -12,11 +12,12 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import type { InputForm } from '@/const/drink';
 import { Loader2 } from 'lucide-react';
-import React from 'react';
 import type { Dispatch, SetStateAction } from 'react';
+import React from 'react';
+import ComboboxDemo from './action-combobox';
 
 type DialogProps<T> = {
-    buttonText: string;
+    buttonText?: string;
     title: string;
     submit: React.SubmitEventHandler<HTMLFormElement>;
     isDialogOpen: boolean;
@@ -26,6 +27,8 @@ type DialogProps<T> = {
     data: T;
     setData: (key: string, value: string | File) => void;
     errors: Partial<Record<keyof T, string>>;
+    isIcon?: boolean;
+    icons?: React.ReactNode;
 };
 const DialogAction = <T,>({
     buttonText,
@@ -38,11 +41,23 @@ const DialogAction = <T,>({
     data,
     setData,
     errors,
+    isIcon = false,
+    icons,
 }: DialogProps<T>) => {
     return (
         <Dialog open={isDialogOpen} onOpenChange={setDialogOpen}>
             <DialogTrigger asChild>
-                <Button variant="outline">{buttonText}</Button>
+                {isIcon ? (
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        className="rounded-full"
+                    >
+                        {icons}
+                    </Button>
+                ) : (
+                    <Button variant="default">{buttonText}</Button>
+                )}
             </DialogTrigger>
 
             <DialogContent>
@@ -50,11 +65,17 @@ const DialogAction = <T,>({
                     <DialogHeader>
                         <DialogTitle>{title}</DialogTitle>
                     </DialogHeader>
-                    <div className="space-y-3">
+                    <div className="mt-4 space-y-3">
                         {formInput?.map((i) => (
-                            <div key={i.label}>
+                            <div key={i.label} className="flex flex-col gap-1">
                                 <Label>{i.label}</Label>
-                                {i.inputType === 'file' ? (
+                                {i.inputType === 'combobox' && (
+                                    <ComboboxDemo
+                                        value={data[i.data] as string} // <-- bind parent value
+                                        onChange={(val) => setData(i.data, val)}
+                                    />
+                                )}
+                                {i.inputType === 'file' && (
                                     <>
                                         <Input
                                             type="file"
@@ -72,20 +93,29 @@ const DialogAction = <T,>({
                                             }}
                                         />
                                     </>
-                                ) : (
-                                    <>
-                                        <Input
-                                            value={data[i.data]}
-                                            type={i.inputType}
-                                            onChange={(e) =>
-                                                setData(i.data, e.target.value)
-                                            }
-                                        />
-                                        {errors[i.data] && (
-                                            <p>{errors[i.data]}</p>
-                                        )}
-                                    </>
                                 )}
+                                {i.inputType !== 'combobox' &&
+                                    i.inputType !== 'file' && (
+                                        <>
+                                            <Input
+                                                value={
+                                                    data[i.data] as
+                                                        | string
+                                                        | number
+                                                }
+                                                type={i.inputType}
+                                                onChange={(e) =>
+                                                    setData(
+                                                        i.data,
+                                                        e.target.value,
+                                                    )
+                                                }
+                                            />
+                                            {errors[i.data] && (
+                                                <p>{errors[i.data]}</p>
+                                            )}
+                                        </>
+                                    )}
                             </div>
                         ))}
                     </div>

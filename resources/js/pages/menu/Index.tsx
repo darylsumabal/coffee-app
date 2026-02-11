@@ -1,6 +1,3 @@
-import { AppContent } from '@/components/app-content';
-import React from 'react';
-import { CoffeeCard } from './coffee-card';
 import MenuSearchBar from '@/components/ui/menu-search-bar';
 import SideBarMenu from '@/components/ui/sidebar-menu';
 

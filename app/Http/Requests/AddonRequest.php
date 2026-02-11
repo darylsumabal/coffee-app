@@ -24,7 +24,8 @@ class AddonRequest extends FormRequest
     {
         return [
             'addon_name' => 'required|string',
-            'extra_price' => 'required|numeric'
+            'extra_price' => 'required|numeric',
+            'availability' => 'required|string'
         ];
     }
 }

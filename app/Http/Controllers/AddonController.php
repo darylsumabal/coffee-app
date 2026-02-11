@@ -28,6 +28,7 @@ class AddonController extends Controller
         Addon::create([
             'addon_name' => $request->addon_name,
             'extra_price' => $request->extra_price,
+            'availability' => $request->availability,
         ]);
 
 
@@ -62,7 +63,6 @@ class AddonController extends Controller
     public function destroy(Addon $addon)
     {
         $addon->delete();
-
         return redirect()->back()->with('success', 'Addon deleted!');
     }
 }

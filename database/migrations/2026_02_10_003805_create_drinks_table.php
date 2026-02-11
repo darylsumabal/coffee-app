@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('drink_name');
             $table->string('drink_image');
             $table->float('price');
-            $table->boolean('is_available')->default(true);
+            $table->enum('availability', ['available', 'unavailable'])->default('available');
             $table->timestamps();
         });
     }

@@ -14,7 +14,7 @@ const LandingPage = () => {
             <span className="text-green-700">Hi pogi 150</span>
           </h2>
           <p className="mt-6 text-gray-600 max-w-md">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quisquam vitae sapiente sit voluptate? Voluptate ipsum nemo quam minima aliquam laborum cupiditate 
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quisquam vitae sapiente sit voluptate? Voluptate ipsum nemo quam minima aliquam laborum cupiditate
             tenetur, accusamus eaque expedita culpa enim nulla rem necessitatibus.
           </p>
           <Link href={'/menu'}>
@@ -23,7 +23,7 @@ const LandingPage = () => {
           </Button>
           </Link>
         </div>
-        
+
 
         <div className="flex justify-center mt-8 md:mt-0">
           <img
@@ -32,10 +32,10 @@ const LandingPage = () => {
             className="w-[420px] rounded-3xl shadow-lg"
           />
         </div>
-        
-        
+
+
       </section>
-      <div>
+      <div className="mb-8">
         <Card/>
         </div>
     </div>

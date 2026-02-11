@@ -8,6 +8,7 @@ class Addon extends Model
 {
     protected $fillable = [
         'addon_name',
-        'extra_price'
+        'extra_price',
+        'availability'
     ];
 }

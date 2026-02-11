@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Addon;
 use App\Models\Drink;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -15,6 +16,7 @@ class MenuController extends Controller
     {
         return Inertia::render('menu/Index', [
             'drinks' => Drink::all(),
+            'addons' => Addon::all(),
         ]);
     }
 

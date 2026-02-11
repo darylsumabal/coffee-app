@@ -11,6 +11,6 @@ class Drink extends Model
         'drink_image',
         'drink_name',
         'price',
-        'is_available'
+        'availability'
     ];
 }

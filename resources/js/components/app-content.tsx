@@ -23,16 +23,27 @@ export function AppContent({ variant = 'header', children, ...props }: Props) {
     return (
         <>
             {!auth.user && (
-                <main
-                    className="mx-auto flex h-full w-full flex-1 flex-col rounded-xl"
-                    {...props}
-                >
+                // <main
+                //     className="mx-auto flex h-full w-full flex-1 flex-col rounded-xl "
+                //     {...props}
+                // >
+                //     <div className="sticky top-0 z-50 flex justify-center bg-white py-4 shadow-xl">
+                //         <div className="w-7xl">
+                //             <NavBar />
+                //         </div>
+                //     </div>
+                //     <div className="flex h-full justify-center bg-[#f7f7f7]">
+                //         <div className="h-full w-7xl">{children}</div>
+                //     </div>
+                // </main>
+                <main className="mx-auto flex min-h-screen w-full flex-col rounded-xl">
                     <div className="sticky top-0 z-50 flex justify-center bg-white py-4 shadow-xl">
-                        <div className="w-7xl ">
+                        <div className="w-7xl">
                             <NavBar />
                         </div>
                     </div>
-                    <div className="flex justify-center bg-[#f7f7f7]">
+
+                    <div className="flex flex-1 justify-center bg-[#f7f7f7]">
                         <div className="w-7xl">{children}</div>
                     </div>
                 </main>
