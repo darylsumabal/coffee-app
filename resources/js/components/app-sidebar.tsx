@@ -28,7 +28,7 @@ const mainNavItems: NavItem[] = [
         icon: ShoppingBasket,
     },
     {
-        title: 'Order',
+        title: 'Orders',
         href: '/admin/order',
         icon: User,
     },
