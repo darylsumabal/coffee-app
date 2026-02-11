@@ -22,10 +22,7 @@ const fruits = [
     { label: 'Grape', extraPrice: 10, icon: GrapeIcon },
     { label: 'Grape', extraPrice: 10, icon: GrapeIcon },
     { label: 'Grape', extraPrice: 10, icon: GrapeIcon },
-    { label: 'SADS', extraPrice: 10, icon: GrapeIcon },
-    { label: 'SAD', extraPrice: 10, icon: GrapeIcon },
 ];
-
 const temperature = [{ label: 'Cold' }, { label: 'Hold' }];
 
 const CheckboxVerticalGroup = () => {

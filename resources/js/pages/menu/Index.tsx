@@ -1,6 +1,7 @@
 import { AppContent } from '@/components/app-content';
 import React from 'react';
-import CoffeeCard from './coffee-card';
+import { CoffeeCard } from './coffee-card';
+
 
 const Menu = () => {
     return (
