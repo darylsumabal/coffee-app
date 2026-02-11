@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\OrderRequest;
 use App\Models\Addon;
 use App\Models\Drink;
 use Illuminate\Http\Request;
@@ -23,7 +24,7 @@ class MenuController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(OrderRequest $request)
     {
         //
     }
@@ -31,9 +32,13 @@ class MenuController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request)
     {
-        //
+        $orderData = $request->all();
+
+        return Inertia::render('checkout/Index', [
+            'orderData' => $orderData,
+        ]);
     }
 
     /**
