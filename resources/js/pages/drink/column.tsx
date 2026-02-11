@@ -139,9 +139,15 @@ export const columnAddon: ColumnDef<Addon>[] = [
         meta: { filterVariant: 'select' },
         cell: ({ row }) => (
             <Badge
-                variant={row.original.availability ? 'default' : 'destructive'}
+                variant={
+                    row.original.availability == 'available'
+                        ? 'default'
+                        : 'destructive'
+                }
             >
-                {row.original.availability ? 'Available' : 'Unavailable'}
+                {row.original.availability == 'available'
+                    ? 'Available'
+                    : 'Unavailable'}
             </Badge>
         ),
     },
