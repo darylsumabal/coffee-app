@@ -1,20 +1,30 @@
 import { AppContent } from '@/components/app-content';
 import React from 'react';
 import { CoffeeCard } from './coffee-card';
-
+import MenuSearchBar from '@/components/ui/menu-search-bar';
+import SideBarMenu from '@/components/ui/sidebar-menu';
 
 const Menu = () => {
-    return (
-        <div className="space-y-2">
-            <div className="flex flex-col gap-6">
-                <div className="space-y-6">
-                    <div className="flex w-full gap-4">
-                        <CoffeeCard />
-                    </div>
-                </div>
-            </div>
+  return (
+    <div className='flex'>
+
+    <div>
+        <SideBarMenu/>
+    </div>
+     <div className="space-y-6">
+    {/* HEADER */}
+    <div className=" w-full p-4 z-50">
+      <MenuSearchBar />
+    </div>
+
+      {/* COFFEE CARD GRID */}
+      <div className="mx-auto w-full max-w-7xl">
+        <CoffeeCard />
+      </div>
+    </div>
         </div>
-    );
+  );
 };
+
 Menu.layout = (page: React.ReactNode) => <AppContent>{page}</AppContent>;
 export default Menu;
