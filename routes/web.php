@@ -20,6 +20,7 @@ Route::prefix('admin')->group(function () {
     })->middleware(['auth', 'verified'])->name('dashboard');
 
     require __DIR__ . '/drink.php';
+    require __DIR__ . '/addon.php';
 });
 
 require __DIR__ . '/menu.php';
