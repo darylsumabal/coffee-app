@@ -5,21 +5,20 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AddonRequest;
 use App\Models\Addon;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class AddonController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index() {}
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function index()
     {
-        //
+        // return Inertia::render('drink/Index', [
+        //     'addons' => Addon::all()
+        // ]);
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -36,27 +35,25 @@ class AddonController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Addon $addon)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Addon $addon)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Addon $addon)
+    public function update(AddonRequest $request, Addon $addon)
     {
-        //
+
+        $data = $request->validated();
+
+        // Handle image only if a new one is uploaded
+        if ($request->hasFile('drink_image')) {
+            $data['drink_image'] = $request
+                ->file('drink_image')
+                ->store('drinks', 'public');
+        } else {
+            unset($data['drink_image']); // keep old image
+        }
+
+        $addon->update($data);
+
+        return redirect()->back()->with('success', 'Edited successfully');
     }
 
     /**
@@ -64,6 +61,8 @@ class AddonController extends Controller
      */
     public function destroy(Addon $addon)
     {
-        //
+        $addon->delete();
+
+        return redirect()->back()->with('success', 'Addon deleted!');
     }
 }
