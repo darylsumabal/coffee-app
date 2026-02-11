@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
+import type { Addon } from '@/const/drink';
 
 interface CoffeeCardProps {
     drinks?: Drink[];
@@ -21,7 +22,8 @@ export function CoffeeCard({ drinks: propDrinks }: CoffeeCardProps = {}) {
 
     const [active, setActive] = useState<Drink | null>(null);
     const [note, setNote] = useState<string>('');
-    const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+    const [selectedOptions, setSelectedOptions] = useState<Addon[]>([]);
+    const [temperature, setTemperature] = useState<string>('');
 
     const id = useId();
     const ref = useRef<HTMLDivElement>(null);
@@ -50,7 +52,15 @@ export function CoffeeCard({ drinks: propDrinks }: CoffeeCardProps = {}) {
 
     const calculateTotal = () => {
         if (!active) return 0;
-        return parseFloat(active.price.toString());
+
+        const basePrice = Number(active.price);
+
+        const addonsTotal = selectedOptions.reduce(
+            (sum, addon) => sum + Number(addon.extra_price),
+            0,
+        );
+
+        return basePrice + addonsTotal;
     };
 
     const handleCheckout = () => {
@@ -58,6 +68,7 @@ export function CoffeeCard({ drinks: propDrinks }: CoffeeCardProps = {}) {
 
         const orderData = {
             drink: active,
+            temperature,
             note,
             selectedOptions,
             total: calculateTotal(),
@@ -90,7 +101,7 @@ export function CoffeeCard({ drinks: propDrinks }: CoffeeCardProps = {}) {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
-                            className="absolute right-4 top-4 z-50 flex h-8 w-8 items-center justify-center rounded-full bg-white shadow-lg lg:hidden"
+                            className="absolute top-4 right-4 z-50 flex h-8 w-8 items-center justify-center rounded-full bg-white shadow-lg lg:hidden"
                             onClick={handleClose}
                         >
                             <CloseIcon />
@@ -102,7 +113,9 @@ export function CoffeeCard({ drinks: propDrinks }: CoffeeCardProps = {}) {
                             className="flex h-full w-full max-w-[500px] flex-col overflow-hidden bg-white shadow-2xl sm:rounded-3xl md:max-h-[90vh] dark:bg-neutral-900"
                         >
                             {/* IMAGE */}
-                            <motion.div layoutId={`image-${active.drink_name}-${id}`}>
+                            <motion.div
+                                layoutId={`image-${active.drink_name}-${id}`}
+                            >
                                 <img
                                     src={`${ulrSrc}/${active.drink_image}`}
                                     alt={active.drink_name}
@@ -130,11 +143,18 @@ export function CoffeeCard({ drinks: propDrinks }: CoffeeCardProps = {}) {
                             <Separator />
 
                             {/* SCROLLABLE CONTENT */}
-                            <div className="flex-1 min-h-0">
+                            <div className="min-h-0 flex-1">
                                 <ScrollArea className="h-full">
                                     <div className="space-y-6 p-4">
                                         {/* OPTIONS */}
-                                        <CheckboxVerticalGroup />
+                                        <CheckboxVerticalGroup
+                                            selectedAddons={selectedOptions}
+                                            setSelectedAddons={
+                                                setSelectedOptions
+                                            }
+                                            temperature={temperature}
+                                            setTemperature={setTemperature}
+                                        />
 
                                         {/* NOTE */}
                                         <div className="space-y-2">
