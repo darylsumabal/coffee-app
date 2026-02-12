@@ -29,7 +29,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Orders',
-        href: '/admin/order',
+        href: '/admin/orders',
         icon: User,
     },
 ];

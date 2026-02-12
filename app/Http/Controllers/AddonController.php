@@ -31,7 +31,6 @@ class AddonController extends Controller
             'availability' => $request->availability,
         ]);
 
-
         return redirect()->back()->with('success', 'Addon created!');
     }
 
@@ -42,15 +41,6 @@ class AddonController extends Controller
     {
 
         $data = $request->validated();
-
-        // Handle image only if a new one is uploaded
-        if ($request->hasFile('drink_image')) {
-            $data['drink_image'] = $request
-                ->file('drink_image')
-                ->store('drinks', 'public');
-        } else {
-            unset($data['drink_image']); // keep old image
-        }
 
         $addon->update($data);
 
