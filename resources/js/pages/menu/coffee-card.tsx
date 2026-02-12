@@ -22,7 +22,7 @@ export function CoffeeCard({ drinks: propDrinks }: CoffeeCardProps = {}) {
 
     const [active, setActive] = useState<Drink | null>(null);
     const [note, setNote] = useState<string>('');
-    const [selectedOptions, setSelectedOptions] = useState<Addon[]>([]);
+    const [addons, setAddons] = useState<number | null>(null);
     const [temperature, setTemperature] = useState<string>('');
 
     const id = useId();
@@ -43,7 +43,7 @@ export function CoffeeCard({ drinks: propDrinks }: CoffeeCardProps = {}) {
     const handleClose = () => {
         setActive(null);
         setNote('');
-        setSelectedOptions([]);
+        setAddons(null);
     };
 
     const handleCardClick = (drink: Drink) => {
@@ -55,14 +55,9 @@ export function CoffeeCard({ drinks: propDrinks }: CoffeeCardProps = {}) {
 
         const basePrice = Number(active.price);
 
-        const addonsTotal = selectedOptions.reduce(
-            (sum, addon) => sum + Number(addon.extra_price),
-            0,
-        );
-
-        return basePrice + addonsTotal;
+        return basePrice;
     };
-
+    
     const handleCheckout = () => {
         if (!active) return;
 
@@ -70,7 +65,7 @@ export function CoffeeCard({ drinks: propDrinks }: CoffeeCardProps = {}) {
             drink: active,
             temperature,
             note,
-            selectedOptions,
+            addons: addons,
             total: calculateTotal(),
         };
 
@@ -152,10 +147,8 @@ export function CoffeeCard({ drinks: propDrinks }: CoffeeCardProps = {}) {
                                     <div className="space-y-6 p-4">
                                         {/* OPTIONS */}
                                         <CheckboxVerticalGroup
-                                            selectedAddons={selectedOptions}
-                                            setSelectedAddons={
-                                                setSelectedOptions
-                                            }
+                                            selectedAddons={addons}
+                                            setSelectedAddons={setAddons}
                                             temperature={temperature}
                                             setTemperature={setTemperature}
                                         />
@@ -217,10 +210,10 @@ export function CoffeeCard({ drinks: propDrinks }: CoffeeCardProps = {}) {
                             onClick={() => handleCardClick(card)}
                             className="cursor-pointer overflow-hidden rounded-xl border-2 border-neutral-200 hover:shadow-lg"
                             animate={{
-                                opacity: isActive ? 0 : 1
+                                opacity: isActive ? 0 : 1,
                             }}
                             style={{
-                                pointerEvents: isActive ? 'none' : 'auto'
+                                pointerEvents: isActive ? 'none' : 'auto',
                             }}
                         >
                             <motion.div

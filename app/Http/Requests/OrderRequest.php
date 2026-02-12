@@ -23,7 +23,8 @@ class OrderRequest extends FormRequest
     {
         return [
             'temperature' => 'required|string',
-            'note' => 'required|string',
+            'note' => 'nullable|string',
+            
         ];
     }
 }

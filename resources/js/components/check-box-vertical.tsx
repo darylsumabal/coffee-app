@@ -1,13 +1,12 @@
-import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import type { Addon } from '@/const/drink';
 import { usePage } from '@inertiajs/react';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 
 type Props = {
-    selectedAddons: Addon[];
-    setSelectedAddons: React.Dispatch<React.SetStateAction<Addon[]>>;
-    temperature: string | null;
+    selectedAddons: string | null;
+    setSelectedAddons: React.Dispatch<React.SetStateAction<string | null>>;
+    temperature: string;
     setTemperature: React.Dispatch<React.SetStateAction<string>>;
 };
 
@@ -15,18 +14,10 @@ const CheckboxVerticalGroup = ({
     selectedAddons,
     setSelectedAddons,
     temperature,
-    setTemperature
+    setTemperature,
 }: Props) => {
     const { addons } = usePage<{ addons: Addon[] }>().props;
     const temperatures = ['Cold', 'Hot'];
-    const toggleAddon = (addon: Addon) => {
-        setSelectedAddons((prev) =>
-            prev.some((a) => a.id === addon.id)
-                ? prev.filter((a) => a.id !== addon.id)
-                : [...prev, addon],
-        );
-    };
-
     return (
         <div className="space-y-8">
             <div className="space-y-4">
@@ -58,31 +49,34 @@ const CheckboxVerticalGroup = ({
                 <Label className="text-xl font-semibold">Add-ons</Label>
 
                 <div className="flex flex-col gap-4">
-                    {addons
-                        .filter((a) => a.availability === 'available')
-                        .map((addon) => (
-                            <div
-                                key={addon.id}
-                                className="flex items-center justify-between"
-                            >
-                                <Label>{addon.addon_name}</Label>
+                    <RadioGroup
+                        value={selectedAddons ?? ''}
+                        onValueChange={setSelectedAddons}
+                        className="flex flex-col gap-2"
+                    >
+                        {addons
+                            .filter((a) => a.availability === 'available')
+                            .map((addon) => (
+                                <div
+                                    key={addon.id}
+                                    className="flex items-center justify-between"
+                                >
+                                    <Label>{addon.addon_name}</Label>
 
-                                <div className="flex items-center gap-2">
-                                    <p className="text-sm">
-                                        + ₱ {addon.extra_price}
-                                    </p>
-                                    <Checkbox
-                                        checked={selectedAddons.some(
-                                            (a) => a.id === addon.id,
-                                        )}
-                                        onCheckedChange={() =>
-                                            toggleAddon(addon)
-                                        }
-                                        className="size-5"
-                                    />
+                                    <div className="flex items-center gap-2">
+                                        <p className="text-sm">
+                                            + ₱ {addon.extra_price}
+                                        </p>
+
+                                        <RadioGroupItem
+                                            value={String(addon.id)}
+                                            id={addon.id}
+                                            className="h-5 w-5"
+                                        />
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
+                    </RadioGroup>
                 </div>
             </div>
         </div>
