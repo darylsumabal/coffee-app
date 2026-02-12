@@ -58,14 +58,15 @@ class ManageOrderController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, OrderStatus $orderStatus)
+    public function update(Request $request, $id)
     {
+        $orderStatus = OrderStatus::findOrFail($id);
         $validated = $request->validate([
             'status' => 'boolean',
         ]);
-
+        
         $orderStatus->update($validated);
-
+        // dd($orderStatus);
         return redirect()->back()->with('success', 'Order updated');
     }
 
