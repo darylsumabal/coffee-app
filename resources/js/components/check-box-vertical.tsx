@@ -6,6 +6,7 @@ import { usePage } from '@inertiajs/react';
 type SelectedAddon = {
     id: string;
     extra_price: number;
+    addon: string;
 };
 
 type Props = {
@@ -24,6 +25,7 @@ const CheckboxVerticalGroup = ({
     setTemperature,
 }: Props) => {
     const { addons } = usePage<{ addons: Addon[] }>().props;
+
     const temperatures = ['Cold', 'Hot'];
     return (
         <div className="space-y-8">
@@ -53,7 +55,7 @@ const CheckboxVerticalGroup = ({
                 </RadioGroup>
             </div>
             <div className="space-y-4">
-                <Label className="text-xl font-semibold">Add-ons</Label>
+                <Label className="text-xl font-semibold">Addons</Label>
                 <div className="flex flex-col gap-4">
                     <RadioGroup
                         value={selectedAddons?.id ?? ''}
@@ -66,6 +68,7 @@ const CheckboxVerticalGroup = ({
                                 setSelectedAddons({
                                     id: String(selected.id),
                                     extra_price: Number(selected.extra_price),
+                                    addon: selected.addon_name,
                                 });
                             } else {
                                 setSelectedAddons(null);
@@ -73,6 +76,16 @@ const CheckboxVerticalGroup = ({
                         }}
                         className="flex flex-col gap-2"
                     >
+                        <div className="flex items-center justify-between">
+                            <Label>No Addon</Label>
+                            <div className="flex items-center gap-2">
+                                <p className="text-sm">+ ₱ 0</p>
+                                <RadioGroupItem
+                                    value=""
+                                    className="h-5 w-5"
+                                />
+                            </div>
+                        </div>
                         {addons
                             .filter((a) => a.availability === 'available')
                             .map((addon) => (

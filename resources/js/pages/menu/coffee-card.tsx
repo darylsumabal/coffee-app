@@ -23,6 +23,7 @@ export function CoffeeCard({ drinks: propDrinks }: CoffeeCardProps = {}) {
     const [note, setNote] = useState<string>('');
     const [addons, setAddons] = useState<{
         id: string;
+        addon: string;
         extra_price: number;
     } | null>(null);
 
@@ -71,7 +72,10 @@ export function CoffeeCard({ drinks: propDrinks }: CoffeeCardProps = {}) {
             drink: active,
             temperature,
             note,
-            addons: addons?.extra_price,
+            addons: {
+                extra_price: addons?.extra_price,
+                addon: addons?.addon,
+            },
             total: calculateTotal(),
         };
 
