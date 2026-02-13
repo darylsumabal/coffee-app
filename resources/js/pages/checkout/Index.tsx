@@ -32,6 +32,8 @@ type CheckOut = {
 type OrderData = {
     addons?: {
         id: number;
+        addon: string;
+        extra_price: string;
     };
     drink: {
         id: string;
@@ -53,7 +55,7 @@ const Checkout = () => {
     const { data, setData, post, processing, errors, reset } =
         useForm<CheckOut>({
             drink_id: orderData.drink?.id,
-            addon_id: orderData.addons,
+            addon_id: orderData.addons?.id,
             employee_id: '',
             name: '',
             email: '',
@@ -191,15 +193,21 @@ const Checkout = () => {
                                     </div>
                                     <div>
                                         <div>
-                                            Temperature:
-                                            {orderData.temperature}
+                                            Temperature: {orderData.temperature}
                                         </div>
                                         <div className="flex gap-0.5">
                                             Addons:
                                             {orderData.addons &&
                                             orderData.addons ? (
                                                 <div>
-                                                    {orderData.addons?.id}
+                                                    <span className="font-bold">
+                                                        +
+                                                    </span>
+                                                    {
+                                                        orderData.addons
+                                                            .extra_price
+                                                    }{' '}
+                                                    {orderData?.addons.addon}
                                                 </div>
                                             ) : (
                                                 <div>No Addons</div>

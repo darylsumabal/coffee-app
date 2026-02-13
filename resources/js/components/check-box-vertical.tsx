@@ -3,9 +3,17 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import type { Addon } from '@/const/drink';
 import { usePage } from '@inertiajs/react';
 
+type SelectedAddon = {
+    id: string;
+    extra_price: number;
+    addon: string;
+};
+
 type Props = {
-    selectedAddons: string | null;
-    setSelectedAddons: React.Dispatch<React.SetStateAction<string | null>>;
+    selectedAddons: SelectedAddon | null;
+    setSelectedAddons: React.Dispatch<
+        React.SetStateAction<SelectedAddon | null>
+    >;
     temperature: string;
     setTemperature: React.Dispatch<React.SetStateAction<string>>;
 };
@@ -17,6 +25,7 @@ const CheckboxVerticalGroup = ({
     setTemperature,
 }: Props) => {
     const { addons } = usePage<{ addons: Addon[] }>().props;
+
     const temperatures = ['Cold', 'Hot'];
     return (
         <div className="space-y-8">
@@ -46,14 +55,37 @@ const CheckboxVerticalGroup = ({
                 </RadioGroup>
             </div>
             <div className="space-y-4">
-                <Label className="text-xl font-semibold">Add-ons</Label>
-
+                <Label className="text-xl font-semibold">Addons</Label>
                 <div className="flex flex-col gap-4">
                     <RadioGroup
-                        value={selectedAddons ?? ''}
-                        onValueChange={setSelectedAddons}
+                        value={selectedAddons?.id ?? ''}
+                        onValueChange={(value) => {
+                            const selected = addons.find(
+                                (a) => String(a.id) === value,
+                            );
+
+                            if (selected) {
+                                setSelectedAddons({
+                                    id: String(selected.id),
+                                    extra_price: Number(selected.extra_price),
+                                    addon: selected.addon_name,
+                                });
+                            } else {
+                                setSelectedAddons(null);
+                            }
+                        }}
                         className="flex flex-col gap-2"
                     >
+                        <div className="flex items-center justify-between">
+                            <Label>No Addon</Label>
+                            <div className="flex items-center gap-2">
+                                <p className="text-sm">+ ₱ 0</p>
+                                <RadioGroupItem
+                                    value=""
+                                    className="h-5 w-5"
+                                />
+                            </div>
+                        </div>
                         {addons
                             .filter((a) => a.availability === 'available')
                             .map((addon) => (

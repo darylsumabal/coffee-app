@@ -13,7 +13,7 @@ import { Head, useForm, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { columnAddon, columnDrink } from './column';
-import DataTable from './table';
+import DataTable from '@/components/data-table';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {

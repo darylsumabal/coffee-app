@@ -4,14 +4,14 @@ import { Link } from '@inertiajs/react';
 
 const LandingPage = () => {
     return (
-        <div className="px-4 sm:px-6 lg:px-12">
+        <div >
             {/* HERO SECTION */}
             <section className="flex flex-col items-center justify-between py-12 gap-10 md:flex-row md:py-20">
-                
+
                 {/* TEXT */}
                 <div className="flex flex-col items-center text-center md:items-start md:text-left">
                     <h2 className="text-3xl font-extrabold leading-tight text-gray-900 sm:text-4xl md:text-5xl">
-                        POGI CHUPACHUPS <br />
+                        POGI CHUPACHUPSs <br />
                         <span className="text-green-700">Hi pogi 150</span>
                     </h2>
 
