@@ -1,8 +1,6 @@
-import { useState } from 'react';
-
+import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { useForm } from '@inertiajs/react';
-import { Button } from '@/components/ui/button';
 
 const SwitchToggleLabelDemo = ({
     status,
@@ -11,48 +9,40 @@ const SwitchToggleLabelDemo = ({
     status: boolean;
     id: string;
 }) => {
-    // const [isChecked, setIsChecked] = useState(status);
-
-    // const { put } = useForm();
-
-    // const handleToggle = () => {
-    //     const newStatus = !isChecked;
-    //     setIsChecked(newStatus);
-    //     put(`/admin/orders/${id}`, {
-    //         data: { status: newStatus ? 1 : 0 },
-    //         onSuccess: () => {
-    //             alert('asd');
-    //         },
-    //         onError: (errors) => {
-    //             console.log(errors);
-    //         },
-    //     });
-    // };
     const { data, setData, put } = useForm({
-        status: status ? 1 : 0,
+        status: !status,
     });
 
     const handleToggle = () => {
-        const newStatus = data.status === 1 ? 0 : 1;
-        setData('status', newStatus);
+        setData('status', !data.status);
 
         put(`/admin/orders/${id}`, {
+            preserveScroll: true,
             onSuccess: () => console.log('Updated successfully'),
-            onError: () => setData('status', data.status), // revert if failed
+            onError: (e) => console.log(e),
         });
-        console.log('pk');
     };
 
     return (
+        // <div className="inline-flex items-center gap-2">
+        //     <Switch
+        //         size="default"
+        //         onCheckedChange={handleToggle}
+        //         id="toggle-label"
+        //         checked={!data.status}
+        //         aria-label="Toggle switch label"
+        //     />
+        // </div>
         <div className="inline-flex items-center gap-2">
-            {/* <Button onClick={handleToggle}>TEst</Button> */}
             <Switch
-                onClick={handleToggle}
-                onCheckedChange={handleToggle}
                 id="toggle-label"
-                checked={data.status === 1}
+                checked={!data.status}
+                onCheckedChange={handleToggle}
                 aria-label="Toggle switch label"
             />
+            <Label htmlFor="toggle-label" className="text-sm font-medium">
+                {!data.status ? 'Yes' : 'No'}
+            </Label>
         </div>
     );
 };

@@ -1,3 +1,4 @@
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import {
     Table,
@@ -7,15 +8,26 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import type { Orders } from './Index';
 import { ulrSrc } from '@/const/src';
+import { router, usePage } from '@inertiajs/react';
+import { useEchoPublic } from '@laravel/echo-react';
+import type { Orders } from './Index';
 import SwitchToggleLabel from './toggle';
-import { usePage } from '@inertiajs/react';
+
+type Auth = {
+    auth: {
+        user: string;
+    };
+};
 
 const TableOrders = ({ orders }: { orders: Orders[] }) => {
-    const { auth } = usePage().props;
-    console.log(orders);
+    const { auth } = usePage<Auth>().props;
+    useEchoPublic('orders', 'OrderEvent', () => {
+        router.reload({
+            only: ['orders'],
+        });
+    });
+
     return (
         <div className="space-y-2">
             <div className="w-full">

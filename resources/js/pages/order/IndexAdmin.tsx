@@ -14,7 +14,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 const IndexAdmin = () => {
     const { orders } = usePage<{ orders: Orders[] }>().props;
-    console.log(orders);
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Order" />

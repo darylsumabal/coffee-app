@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\OrderEvent;
 use App\Models\OrderItem;
 use App\Models\OrderStatus;
 use Illuminate\Http\Request;
@@ -64,9 +65,9 @@ class ManageOrderController extends Controller
         $validated = $request->validate([
             'status' => 'boolean',
         ]);
-        
+
         $orderStatus->update($validated);
-        // dd($orderStatus);
+        broadcast(new OrderEvent($orderStatus))->toOthers();
         return redirect()->back()->with('success', 'Order updated');
     }
 
