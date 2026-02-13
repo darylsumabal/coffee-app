@@ -163,13 +163,13 @@ const Checkout = () => {
                         <Separator orientation="vertical" />
                     </div>
                     <Tabs defaultValue="review" className="gap-4">
-                        <TabsList className='bg-black'>
+                        <TabsList>
                             <TabsTrigger
                                 type="button"
                                 key={'review'}
                                 value={'review'}
                             >
-                               Coffee
+                                Coffee
                             </TabsTrigger>
 
                             <TabsTrigger type="button" key={'qr'} value={'qr'}>
