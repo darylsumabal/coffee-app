@@ -1,6 +1,8 @@
-import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { useForm } from '@inertiajs/react';
+import { Trash2 } from 'lucide-react';
+import { toast } from 'sonner';
 
 const SwitchToggleLabelDemo = ({
     status,
@@ -9,7 +11,12 @@ const SwitchToggleLabelDemo = ({
     status: boolean;
     id: string;
 }) => {
-    const { data, setData, put } = useForm({
+    const {
+        data,
+        setData,
+        put,
+        delete: deleteOrder,
+    } = useForm({
         status: !status,
     });
 
@@ -23,26 +30,33 @@ const SwitchToggleLabelDemo = ({
         });
     };
 
+    const handleDelete = () => {
+        deleteOrder(`/admin/orders/${id}`, {
+            onSuccess: () => {
+                toast.success('Order deleted!');
+            },
+            onError: (errors) => {
+                // alert('An error occurred');
+                console.log(errors);
+            },
+        });
+    };
+
     return (
-        // <div className="inline-flex items-center gap-2">
-        //     <Switch
-        //         size="default"
-        //         onCheckedChange={handleToggle}
-        //         id="toggle-label"
-        //         checked={!data.status}
-        //         aria-label="Toggle switch label"
-        //     />
-        // </div>
-        <div className="inline-flex items-center gap-2">
-            <Switch
-                id="toggle-label"
-                checked={!data.status}
-                onCheckedChange={handleToggle}
-                aria-label="Toggle switch label"
-            />
-            <Label htmlFor="toggle-label" className="text-sm font-medium">
-                {!data.status ? 'Yes' : 'No'}
-            </Label>
+        <div className="flex items-center gap-2">
+            <div>
+                <Switch
+                    id="toggle-label"
+                    checked={!data.status}
+                    onCheckedChange={handleToggle}
+                    aria-label="Toggle switch label"
+                />
+            </div>
+            <div>
+                <Button variant="ghost" onClick={handleDelete}>
+                    <Trash2 />
+                </Button>
+            </div>
         </div>
     );
 };

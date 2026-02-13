@@ -25,6 +25,8 @@ Route::prefix('admin')->group(function () {
 
     Route::put('/orders/{id}', [ManageOrderController::class, 'update']);
 
+    Route::delete('/orders/{order}', [ManageOrderController::class, 'destroy']);
+
     require __DIR__ . '/drink.php';
     require __DIR__ . '/addon.php';
 });
