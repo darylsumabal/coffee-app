@@ -3,7 +3,9 @@ import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem } from '@/types';
 import { Head, usePage } from '@inertiajs/react';
 import type { Orders } from './Index';
-import TableOrders from './table';
+import { columnOrder } from './column';
+import DataTable from '@/components/data-table';
+
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -19,7 +21,7 @@ const IndexAdmin = () => {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Order" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <TableOrders orders={orders} />
+                <DataTable data={orders ?? []} columns={columnOrder} />
             </div>
         </AppLayout>
     );
