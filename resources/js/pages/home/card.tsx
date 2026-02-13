@@ -1,60 +1,91 @@
 import { Button } from '@/components/ui/button';
-import { Link } from '@inertiajs/react';
-import React from 'react';
+import { ulrSrc } from '@/const/src';
+import { Link, router, usePage } from '@inertiajs/react';
+import React, { useEffect, useState } from 'react';
 
-const Coffee = [
-    {
-        image: 'https://about.starbucks.com/uploads/2025/05/Starbucks-Iced-Horchata-1536x1067.jpg',
-        name: 'Pa Chupachups',
-        description: 'Enjoy Me. 💚',
-    },
-    {
-        image: 'https://about.starbucks.com/uploads/2025/05/Starbucks-Iced-Horchata-1536x1067.jpg',
-        name: 'Pa Chupachups',
-        description: 'Enjoy Me. 💚',
-    },
-    {
-        image: 'https://about.starbucks.com/uploads/2025/05/Starbucks-Iced-Horchata-1536x1067.jpg',
-        name: 'Pa Chupachups',
-        description: 'Enjoy Me. 💚',
-    },
-    {
-        image: 'https://about.starbucks.com/uploads/2025/05/Starbucks-Iced-Horchata-1536x1067.jpg',
-        name: 'Pa Chupachups',
-        description: 'Enjoy Me. 💚',
-    },
-];
+type PageProps = {
+  drinks: {
+    id: number;
+    drink_image: string;
+    drink_name: string;
+    price: number;
+    availability: boolean;
+  }[];
+};
 
 const Card = () => {
-    return (
-        <div className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-6 md:grid-cols-2">
-            {Coffee.map((i, index) => (
-                <div
-                    key={index}
-                    className="overflow-hidden rounded-2xl bg-white shadow-2xl"
+  const { drinks: initialDrinks = [] } = usePage<PageProps>().props;
+  const [drinks, setDrinks] = useState(initialDrinks);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      router.get(
+        '/',
+        {},
+        {
+          only: ['drinks'],
+          preserveScroll: true,
+          preserveState: true,
+          replace: true,
+          onSuccess: (page) => setDrinks(page.props.drinks),
+        }
+      );
+    }, 10000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {drinks.map((i) => (
+          <div
+            key={i.id}
+            className="overflow-hidden rounded-xl bg-white shadow-md transition hover:shadow-xl"
+          >
+            {/* IMAGE */}
+            <img
+              src={`${ulrSrc}/${i.drink_image}`}
+              alt={i.drink_name}
+              className="h-40 w-full object-cover sm:h-44 md:h-48 lg:h-52"
+            />
+
+            {/* CONTENT */}
+            <div className="px-4 py-4 text-center">
+              <h2 className="mb-1 text-base font-bold text-gray-900 sm:text-lg">
+                {i.drink_name}
+              </h2>
+
+              <p className="text-xs text-gray-600 sm:text-sm">
+                Price: ${i.price}
+              </p>
+
+              <p className="mt-1 text-xs sm:text-sm font-medium">
+                <span
+                  className={
+                    i.availability
+                      ? 'text-green-600'
+                      : 'text-red-500'
+                  }
                 >
-                    <img
-                        src={i.image}
-                        alt={i.name}
-                        className="h-96 w-full object-cover"
-                    />
-                    <div className="px-8 py-12 text-center">
-                        <h2 className="mb-6 text-4xl font-bold text-gray-900">
-                            {i.name}
-                        </h2>
-                        <p className="mb-10 text-lg text-gray-600">
-                            {i.description}
-                        </p>
-                        <Link href={'/menu'}>
-                            <Button className="rounded-full border-2 border-gray-900 px-10 py-3 font-semibold transition-all duration-300 hover:cursor-pointer">
-                                See More
-                            </Button>
-                        </Link>
-                    </div>
-                </div>
-            ))}
-        </div>
-    );
+                  {i.availability ? 'Available' : 'Out of stock'}
+                </span>
+              </p>
+
+              {/* OPTIONAL BUTTON */}
+              {/* 
+              <Link href="/menu">
+                <Button className="mt-3 rounded-full border-2 border-gray-900 px-5 py-1.5 text-xs sm:text-sm font-semibold">
+                  See More
+                </Button>
+              </Link>
+              */}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 };
 
 export default Card;

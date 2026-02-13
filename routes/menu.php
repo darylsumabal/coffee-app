@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('menu')->group(function () {
     Route::get('/', [MenuController::class, 'index']);
+
     Route::get('/create', [MenuController::class, 'create']);
     Route::get('/checkout', [MenuController::class, 'show']);
     Route::post('/checkout', [MenuController::class, 'store']);

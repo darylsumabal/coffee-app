@@ -316,6 +316,7 @@ export function CoffeeCard({ drinks: propDrinks }: CoffeeCardProps = {}) {
     const handleCardClick = (drink: Drink) => {
         // Only allow click if drink is available
         if (drink.availability === 'unavailable') return;
+
         setActive(drink);
     };
 
@@ -485,11 +486,14 @@ export function CoffeeCard({ drinks: propDrinks }: CoffeeCardProps = {}) {
                                     : 'cursor-not-allowed opacity-50'
                             }`}
                             animate={{
-                                opacity: isActive ? 0 : isAvailable  ==='available' ? 1 : 0.5,
+
+                                opacity: isActive ? 0 : isAvailable ? 1 : 0.5,
                             }}
                             style={{
-                                pointerEvents: isActive || isAvailable ==='unavailable' ? 'none' : 'auto',
+                                pointerEvents: isActive || !isAvailable ? 'none' : 'auto',
+                    opacity: isActive ? 0 : isAvailable  ==='available' ? 1 : 0.5,
                             }}
+ 
                         >
                             <div className="relative">
                                 <motion.div
@@ -502,7 +506,8 @@ export function CoffeeCard({ drinks: propDrinks }: CoffeeCardProps = {}) {
                                     />
                                 </motion.div>
 
-                                {/* Unavailable Badge */}
+
+                    
                                 {isAvailable === 'unavailable' && (
                                     <div className="absolute inset-0 flex items-center justify-center bg-black/50">
                                         <span className="rounded-full bg-red-500 px-4 py-2 text-sm font-bold text-white">
