@@ -25,8 +25,10 @@ const SwitchToggleLabelDemo = ({
 
         put(`/admin/orders/${id}`, {
             preserveScroll: true,
-            onSuccess: () => console.log('Updated successfully'),
-            onError: (e) => console.log(e),
+            onSuccess: () => {},
+            onError: (e) => {
+                console.log(e);
+            },
         });
     };
 

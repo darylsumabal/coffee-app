@@ -2,6 +2,13 @@ import { AppContent } from '@/components/app-content';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import {
+    Tabs,
+    TabsContent,
+    TabsContents,
+    TabsList,
+    TabsTrigger,
+} from '@/components/ui/motion-tabs';
 import { Separator } from '@/components/ui/separator';
 import { ulrSrc } from '@/const/src';
 import { router, useForm, usePage } from '@inertiajs/react';
@@ -18,6 +25,8 @@ type CheckOut = {
     temperature: string;
     note: string;
     total: string;
+    receipt_image: File | null;
+    reference_number: string;
 };
 
 type OrderData = {
@@ -40,6 +49,7 @@ const Checkout = () => {
             only: ['orderData'],
         });
     });
+
     const { data, setData, post, processing, errors, reset } =
         useForm<CheckOut>({
             drink_id: orderData.drink?.id,
@@ -47,11 +57,18 @@ const Checkout = () => {
             employee_id: '',
             name: '',
             email: '',
+            receipt_image: null,
+            reference_number: '',
             temperature: orderData.temperature,
             note: orderData.note ?? '',
             total: orderData.total,
         });
-
+    const isFormIncomplete =
+        !data.employee_id ||
+        !data.name ||
+        !data.email ||
+        !data.receipt_image ||
+        !data.reference_number;
     const handleSubmit = (e: React.SubmitEvent) => {
         e.preventDefault();
 
@@ -108,50 +125,104 @@ const Checkout = () => {
                             />
                             {errors.email && <p>{errors.email}</p>}
                         </div>
+                        <div>
+                            <Label>Payment Image</Label>
+                            <Input
+                                type="file"
+                                onChange={(e) =>
+                                    setData(
+                                        'receipt_image',
+                                        e.target.files
+                                            ? e.target.files[0]
+                                            : null,
+                                    )
+                                }
+                            />
+                            {errors.receipt_image && (
+                                <p>{errors.receipt_image}</p>
+                            )}
+                        </div>
+                        <div>
+                            <Label>Reference Number</Label>
+                            <Input
+                                value={data.reference_number}
+                                onChange={(e) =>
+                                    setData('reference_number', e.target.value)
+                                }
+                            />
+                            {errors.reference_number && (
+                                <p>{errors.reference_number}</p>
+                            )}
+                        </div>
+                        <Button type="submit" disabled={isFormIncomplete}>
+                            {processing && <Loader2 className="animate-spin" />}
+                            Pay Now
+                        </Button>
                     </div>
                     <div>
                         <Separator orientation="vertical" />
                     </div>
-                    <div>
-                        <div className="space-y-4">
-                            <p className="text-xl font-bold">
-                                Review your item
-                            </p>
-                            <div>
+                    <Tabs defaultValue="review" className="gap-4">
+                        <TabsList>
+                            <TabsTrigger
+                                type="button"
+                                key={'review'}
+                                value={'review'}
+                            >
+                                Coffee
+                            </TabsTrigger>
+
+                            <TabsTrigger type="button" key={'qr'} value={'qr'}>
+                                Scan Qr
+                            </TabsTrigger>
+                        </TabsList>
+
+                        <TabsContents className="mx-1 -mt-2 mb-1 h-full">
+                            <TabsContent key={'review'} value={'review'}>
+                                <div className="space-y-4">
+                                    <p className="text-xl font-bold">
+                                        Review your item
+                                    </p>
+                                    <div>
+                                        <img
+                                            src={`${ulrSrc}/${orderData.drink?.drink_image}`}
+                                            className="h-64 w-64 rounded-md"
+                                        />
+                                    </div>
+                                    <div>
+                                        <div>
+                                            Temperature:
+                                            {orderData.temperature}
+                                        </div>
+                                        <div className="flex gap-0.5">
+                                            Addons:
+                                            {orderData.addons &&
+                                            orderData.addons ? (
+                                                <div>
+                                                    {orderData.addons?.id}
+                                                </div>
+                                            ) : (
+                                                <div>No Addons</div>
+                                            )}
+                                        </div>
+                                        <div>
+                                            Note:{' '}
+                                            {orderData.note
+                                                ? orderData.note
+                                                : 'Empty Note'}
+                                        </div>
+                                        <div>Total: ₱{orderData.total}</div>
+                                    </div>
+                                </div>
+                            </TabsContent>
+                            <TabsContent key={'qr'} value={'qr'}>
                                 <img
-                                    src={`${ulrSrc}/${orderData.drink?.drink_image}`}
+                                    src={`https://help.gcash.com/hc/article_attachments/41041383522969`}
                                     className="h-64 w-64 rounded-md"
                                 />
-                            </div>
-                            <div>
-                                <div>Temperature: {orderData.temperature}</div>
-
-                                <div className="flex gap-0.5">
-                                    Addons:
-                                    {orderData.addons && orderData.addons ? (
-                                        <div>{orderData.addons?.id}</div>
-                                    ) : (
-                                        <div>No Addons</div>
-                                    )}
-                                </div>
-                                <div>
-                                    Note:{' '}
-                                    {orderData.note
-                                        ? orderData.note
-                                        : 'Empty Note'}
-                                </div>
-                                <div>Total: ₱{orderData.total}</div>
-                            </div>
-                            <div>
-                                <Button>
-                                    {processing && (
-                                        <Loader2 className="animate-spin" />
-                                    )}
-                                    Pay Now
-                                </Button>
-                            </div>
-                        </div>
-                    </div>
+                            </TabsContent>
+                        </TabsContents>
+                    </Tabs>
                 </form>
             </div>
         </AppContent>

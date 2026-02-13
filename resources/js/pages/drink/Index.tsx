@@ -11,9 +11,9 @@ import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem } from '@/types';
 import { Head, useForm, usePage } from '@inertiajs/react';
 import { useState } from 'react';
+import { toast } from 'sonner';
 import { columnAddon, columnDrink } from './column';
 import DataTable from './table';
-import { toast } from 'sonner';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {

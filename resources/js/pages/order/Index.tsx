@@ -17,6 +17,7 @@ export type Orders = {
         };
         temperature: string;
         note?: string;
+        created_at: string;
     };
     status: {
         position: number;
@@ -29,7 +30,7 @@ export type Orders = {
 
 const Order = () => {
     const { orders } = usePage<{ orders: Orders[] }>().props;
-    
+
     return (
         <AppContent>
             <div className="space-y-2 py-20">
