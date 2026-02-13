@@ -47,6 +47,8 @@ export function CoffeeCard({ drinks: propDrinks }: CoffeeCardProps = {}) {
     };
 
     const handleCardClick = (drink: Drink) => {
+        // Only allow click if drink is available
+        if (!drink.is_available) return;
         setActive(drink);
     };
 
@@ -203,28 +205,45 @@ export function CoffeeCard({ drinks: propDrinks }: CoffeeCardProps = {}) {
             <ul className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {drinks.map((card) => {
                     const isActive = active?.id === card.id;
+                    const isAvailable = card.is_available;
+                    
                     return (
                         <motion.li
                             key={card.id}
                             layoutId={`card-${card.drink_name}-${id}`}
                             onClick={() => handleCardClick(card)}
-                            className="cursor-pointer overflow-hidden rounded-xl border-2 border-neutral-200 hover:shadow-lg"
+                            className={`overflow-hidden rounded-xl border-2 border-neutral-200 ${
+                                isAvailable
+                                    ? 'cursor-pointer hover:shadow-lg'
+                                    : 'cursor-not-allowed opacity-50'
+                            }`}
                             animate={{
-                                opacity: isActive ? 0 : 1,
+                                opacity: isActive ? 0 : isAvailable ? 1 : 0.5,
                             }}
                             style={{
-                                pointerEvents: isActive ? 'none' : 'auto',
+                                pointerEvents: isActive || !isAvailable ? 'none' : 'auto',
                             }}
                         >
-                            <motion.div
-                                layoutId={`image-${card.drink_name}-${id}`}
-                                className="h-48 overflow-hidden"
-                            >
-                                <img
-                                    src={`${ulrSrc}/${card.drink_image}`}
-                                    className="h-full w-full object-cover"
-                                />
-                            </motion.div>
+                            <div className="relative">
+                                <motion.div
+                                    layoutId={`image-${card.drink_name}-${id}`}
+                                    className="h-48 overflow-hidden"
+                                >
+                                    <img
+                                        src={`${ulrSrc}/${card.drink_image}`}
+                                        className="h-full w-full object-cover"
+                                    />
+                                </motion.div>
+                                
+                                {/* Unavailable Badge */}
+                                {!isAvailable && (
+                                    <div className="absolute inset-0 flex items-center justify-center bg-black/50">
+                                        <span className="rounded-full bg-red-500 px-4 py-2 text-sm font-bold text-white">
+                                            Unavailable
+                                        </span>
+                                    </div>
+                                )}
+                            </div>
 
                             <div className="p-4">
                                 <motion.h3
