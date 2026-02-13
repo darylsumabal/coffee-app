@@ -3,9 +3,16 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import type { Addon } from '@/const/drink';
 import { usePage } from '@inertiajs/react';
 
+type SelectedAddon = {
+    id: string;
+    extra_price: number;
+};
+
 type Props = {
-    selectedAddons: string | null;
-    setSelectedAddons: React.Dispatch<React.SetStateAction<string | null>>;
+    selectedAddons: SelectedAddon | null;
+    setSelectedAddons: React.Dispatch<
+        React.SetStateAction<SelectedAddon | null>
+    >;
     temperature: string;
     setTemperature: React.Dispatch<React.SetStateAction<string>>;
 };
@@ -47,11 +54,23 @@ const CheckboxVerticalGroup = ({
             </div>
             <div className="space-y-4">
                 <Label className="text-xl font-semibold">Add-ons</Label>
-
                 <div className="flex flex-col gap-4">
                     <RadioGroup
-                        value={selectedAddons ?? ''}
-                        onValueChange={setSelectedAddons}
+                        value={selectedAddons?.id ?? ''}
+                        onValueChange={(value) => {
+                            const selected = addons.find(
+                                (a) => String(a.id) === value,
+                            );
+
+                            if (selected) {
+                                setSelectedAddons({
+                                    id: String(selected.id),
+                                    extra_price: Number(selected.extra_price),
+                                });
+                            } else {
+                                setSelectedAddons(null);
+                            }
+                        }}
                         className="flex flex-col gap-2"
                     >
                         {addons
