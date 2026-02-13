@@ -1,16 +1,15 @@
+import CheckboxVerticalGroup from '@/components/check-box-vertical';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Separator } from '@/components/ui/separator';
+import { Textarea } from '@/components/ui/textarea';
+import { ulrSrc } from '@/const/src';
 import { useOutsideClick } from '@/hooks/use-outside-click';
 import { router, usePage } from '@inertiajs/react';
 import { AnimatePresence, motion } from 'motion/react';
 import { useEffect, useId, useRef, useState } from 'react';
 import type { Drink } from '../drink/Index';
-import { ulrSrc } from '@/const/src';
-import CheckboxVerticalGroup from '@/components/check-box-vertical';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-import type { Addon } from '@/const/drink';
 
 interface CoffeeCardProps {
     drinks?: Drink[];
@@ -22,7 +21,7 @@ export function CoffeeCard({ drinks: propDrinks }: CoffeeCardProps = {}) {
 
     const [active, setActive] = useState<Drink | null>(null);
     const [note, setNote] = useState<string>('');
-    const [addons, setAddons] = useState<number | null>(null);
+    const [addons, setAddons] = useState<number>();
     const [temperature, setTemperature] = useState<string>('');
 
     const id = useId();
@@ -57,7 +56,7 @@ export function CoffeeCard({ drinks: propDrinks }: CoffeeCardProps = {}) {
 
         return basePrice;
     };
-    
+
     const handleCheckout = () => {
         if (!active) return;
 
@@ -203,11 +202,15 @@ export function CoffeeCard({ drinks: propDrinks }: CoffeeCardProps = {}) {
             <ul className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {drinks.map((card) => {
                     const isActive = active?.id === card.id;
+                    const isUnavailable = card.availability === 'unavailable';
                     return (
                         <motion.li
                             key={card.id}
                             layoutId={`card-${card.drink_name}-${id}`}
-                            onClick={() => handleCardClick(card)}
+                            // onClick={() => handleCardClick(card)}
+                            onClick={() => {
+                                if (!isUnavailable) handleCardClick(card);
+                            }}
                             className="cursor-pointer overflow-hidden rounded-xl border-2 border-neutral-200 hover:shadow-lg"
                             animate={{
                                 opacity: isActive ? 0 : 1,
