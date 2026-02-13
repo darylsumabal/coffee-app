@@ -19,7 +19,7 @@ export type Orders = {
         note?: string;
     };
     status: {
-        position: string;
+        position: number;
         status: boolean;
         id: string;
     };
@@ -29,7 +29,7 @@ export type Orders = {
 
 const Order = () => {
     const { orders } = usePage<{ orders: Orders[] }>().props;
-
+    
     return (
         <AppContent>
             <div className="space-y-2 py-20">

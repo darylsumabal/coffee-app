@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\OrderEvent;
 use App\Http\Requests\OrderRequest;
 use App\Models\Addon;
 use App\Models\Customer;
@@ -36,25 +37,27 @@ class MenuController extends Controller
             'email' => $request->email,
         ]);
 
-       $order =  Order::create([
+        $order =  Order::create([
             'customer_id' => $customer->id,
             'addon_id' => $request->addon_id,
             'drink_id' => $request->drink_id,
             'temperature' => $request->temperature,
         ]);
 
-      $orderItem =  OrderItem::create([
+        $orderItem =  OrderItem::create([
             'order_id' => $order->id,
             'total_quantity' => 1,
             'total_price' => $request->total,
 
         ]);
-
-        OrderStatus::create([
-            'order_item_id'=>$orderItem->id,
-            'status'=> false,
-            'position'=> 1,
+        $lastPosition = OrderStatus::max('position') ?? 0;
+        $orderStatus = OrderStatus::create([
+            'order_item_id' => $orderItem->id,
+            'status' => false,
+            'position' => $lastPosition + 1,
         ]);
+
+        broadcast(new OrderEvent($orderStatus))->toOthers();
 
         return redirect()->back()->with('success', 'Order success!');
     }

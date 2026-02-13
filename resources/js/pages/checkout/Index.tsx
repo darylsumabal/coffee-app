@@ -4,7 +4,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { ulrSrc } from '@/const/src';
-import { useForm, usePage } from '@inertiajs/react';
+import { router, useForm, usePage } from '@inertiajs/react';
+import { useEchoPublic } from '@laravel/echo-react';
 import { Loader2 } from 'lucide-react';
 import React from 'react';
 
@@ -34,7 +35,11 @@ type OrderData = {
 
 const Checkout = () => {
     const { orderData } = usePage<{ orderData: OrderData }>().props;
-
+    useEchoPublic('orders', 'OrderEvent', () => {
+        router.reload({
+            only: ['orderData'],
+        });
+    });
     const { data, setData, post, processing, errors, reset } =
         useForm<CheckOut>({
             drink_id: orderData.drink?.id,
@@ -49,7 +54,7 @@ const Checkout = () => {
 
     const handleSubmit = (e: React.SubmitEvent) => {
         e.preventDefault();
-        console.log(data)
+
         post('/menu/checkout', {
             onSuccess: () => {
                 reset();
